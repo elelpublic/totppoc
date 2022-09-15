@@ -19,12 +19,15 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -85,6 +88,7 @@ public class App {
     BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
     String command = null;
     do {
+      print( "" );
       print( "Enter command: secret, verify, quit" );
       command = in.readLine();
       if( command.equals( "secret" ) ) {
@@ -132,16 +136,26 @@ public class App {
     QrGenerator generator = new ZxingPngQrGenerator();
     byte[] imageData = generator.generate(data);
 
-    File file = new File( "target/qr.png" );
+    File imageFile = new File( "target/qr.png" );
+    File htmlFile = new File( "target/qr.html" );
 
-    Files.write( file.toPath(), imageData);
+    Files.write( imageFile.toPath(), imageData);
     print( "Or scan the QR code in this file using your authenticator app: " );
-    print( file.getAbsolutePath() );
+    print( imageFile.getAbsolutePath() );
 
     print( "" );
     print( "The app name is: " + appName );
 
-    Desktop.getDesktop().open( file );
+    String dataUri = getDataUriForImage(imageData, "img/png" );
+    PrintWriter html = new PrintWriter( htmlFile );
+    html.println( "<html><body>" );
+    html.println( "Use this method to present qr code instead of saving file to disk for security reasons.<br>" );
+    html.println( "<img src=\"" + dataUri + "\" />" );
+    html.println( "</body></html>" );
+    html.close();
+
+    Desktop.getDesktop().open( imageFile );
+    Desktop.getDesktop().open( htmlFile );
 
   }
 
