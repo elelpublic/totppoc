@@ -19,17 +19,17 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.List;
+
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 /**
  * Proof of concept for TOTP
