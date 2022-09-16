@@ -151,6 +151,7 @@ public class App {
     html.println( "<html><body>" );
     html.println( "Use this method to present qr code instead of saving file to disk for security reasons.<br>" );
     html.println( "<img src=\"" + dataUri + "\" />" );
+    html.println( "<br>Or enter this secret code into your authenticator: " + secret );
     html.println( "</body></html>" );
     html.close();
 
